@@ -1,0 +1,24 @@
+{
+  "name": "Desentra - Layanan & Informasi Desa",
+  "short_name": "Desentra",
+  "description": "Panduan layanan desa yang mudah dipahami, tanya jawab AI, dan kanal pengaduan warga.",
+  "start_url": "/",
+  "display": "standalone",
+  "background_color": "#008683",
+  "theme_color": "#008683",
+  "orientation": "portrait",
+  "icons": [
+    {
+      "src": "/img/icon-192.png",
+      "sizes": "192x192",
+      "type": "image/png",
+      "purpose": "any maskable"
+    },
+    {
+      "src": "/img/icon-512.png",
+      "sizes": "512x512",
+      "type": "image/png",
+      "purpose": "any maskable"
+    }
+  ]
+}

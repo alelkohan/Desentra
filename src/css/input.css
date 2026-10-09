@@ -1,0 +1,55 @@
+@import url('https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@300;400;500;600;700;800&display=swap');
+
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+@layer base {
+  body {
+    font-family: 'Plus Jakarta Sans', sans-serif;
+    color: #131313;
+    background-color: #F8FAFC;
+    -webkit-tap-highlight-color: transparent;
+  }
+}
+
+/* Custom Desentra Utility & Component Classes */
+.bg-gradient-desentra {
+  background: linear-gradient(135deg, #008683 0%, #00B6AA 100%);
+}
+
+.bg-gradient-warm {
+  background: linear-gradient(135deg, #F08F0E 0%, #F1B435 100%);
+}
+
+.card-feature-blue {
+  background: linear-gradient(135deg, #3C7087 0%, #1469A5 100%);
+}
+
+/* Glassmorphism Effect */
+.glass-nav {
+  background: rgba(255, 255, 255, 0.92);
+  backdrop-filter: blur(12px);
+  -webkit-backdrop-filter: blur(12px);
+  border-top: 1px solid rgba(0, 134, 131, 0.1);
+}
+
+.glass-card {
+  background: rgba(255, 255, 255, 0.85);
+  backdrop-filter: blur(10px);
+  -webkit-backdrop-filter: blur(10px);
+}
+
+/* Safe area padding for mobile bottom bar */
+.pb-safe-bottom {
+  padding-bottom: calc(5rem + env(safe-area-inset-bottom, 0px));
+}
+
+/* Hide scrollbars for horizontal chip list */
+.no-scrollbar::-webkit-scrollbar {
+  display: none;
+}
+.no-scrollbar {
+  -ms-overflow-style: none;
+  scrollbar-width: none;
+}

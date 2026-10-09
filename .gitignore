@@ -1,0 +1,54 @@
+# Environment & Secrets
+.env
+.env.backup
+.env.production
+.env.local
+
+# Node.js
+node_modules/
+npm-debug.log*
+yarn-debug.log*
+yarn-error.log*
+
+# Composer / Vendor
+/vendor/
+
+# CodeIgniter 4 Writable Directory
+writable/cache/*
+!writable/cache/index.html
+!writable/cache/.gitkeep
+
+writable/debugbar/*
+!writable/debugbar/index.html
+!writable/debugbar/.gitkeep
+
+writable/logs/*
+!writable/logs/index.html
+!writable/logs/.gitkeep
+
+writable/session/*
+!writable/session/index.html
+!writable/session/.gitkeep
+
+writable/uploads/*
+!writable/uploads/index.html
+!writable/uploads/.gitkeep
+
+# Unit Testing & Profiling
+.phpunit.result.cache
+/build/
+
+# IDE & Editor Configs
+.vscode/
+.idea/
+*.sublime-project
+*.sublime-workspace
+*.sw?
+
+# OS Generated Files
+.DS_Store
+Thumbs.db
+desktop.ini
+
+# Logs & Temporary files
+*.log
