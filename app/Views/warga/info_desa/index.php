@@ -1,21 +1,21 @@
 <?= $this->extend('layouts/main') ?>
 
 <?= $this->section('content') ?>
-<div class="px-5 py-5 space-y-6 overflow-hidden">
+<div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-6 md:py-10 space-y-6 md:space-y-8 pb-28 md:pb-16 overflow-hidden">
 
     <!-- Header Sesuai Wireframe: Judul Info Desa + Ikon Megafon Kanan Atas -->
     <div class="flex items-center justify-between">
         <div class="space-y-0.5">
-            <h1 class="text-2xl font-black tracking-tight text-slate-900 font-sans">
-                Info Desa
+            <h1 class="text-2xl md:text-3xl font-black tracking-tight text-slate-900 font-sans">
+                Info & Kabar Desa
             </h1>
-            <p class="text-xs text-slate-500 font-medium">
-                Kabar resmi, agenda kegiatan & jadwal layanan
+            <p class="text-xs md:text-sm text-slate-500 font-medium">
+                Kabar resmi, agenda kegiatan kemasyarakatan & jadwal layanan kantor desa
             </p>
         </div>
 
-        <div class="w-10 h-10 rounded-full bg-desentra-orange/10 flex items-center justify-center text-desentra-orange shadow-2xs">
-            <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+        <div class="w-10 h-10 md:w-12 md:h-12 rounded-full bg-desentra-orange/10 flex items-center justify-center text-desentra-orange shadow-2xs">
+            <svg class="w-5 h-5 md:w-6 md:h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                 <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M11 5.882V19.24a1.76 1.76 0 01-3.417.592l-2.147-6.15M18 13a3 3 0 100-6M5.436 13.683A4.001 4.001 0 017 6h1.832c4.1 0 7.625-1.234 9.168-3v14c-1.543-1.766-5.067-3-9.168-3H7a3.988 3.988 0 01-1.564-.317z"></path>
             </svg>
         </div>
@@ -154,12 +154,12 @@
     </section>
 
     <!-- Category Tabs Filter (BSI Style: Teal Active State) -->
-    <div class="flex items-center gap-2 overflow-x-auto no-scrollbar pt-2" id="category-tabs-nav">
+    <div class="flex items-center gap-2 overflow-x-auto no-scrollbar md:flex-wrap md:overflow-visible pt-2" id="category-tabs-nav">
         <?php foreach ($categories as $catKey => $catLabel): ?>
         <button type="button"
                 data-category="<?= esc($catKey) ?>"
                 onclick="filterCategory('<?= esc($catKey) ?>')"
-                class="category-tab-btn whitespace-nowrap px-4 py-1.5 rounded-full text-xs font-bold transition-all <?= ($currentCategory ?? 'all') === $catKey ? 'bg-gradient-to-r from-desentra-teal to-desentra-turquoise text-white shadow-sm shadow-desentra-teal/25' : 'bg-white text-slate-600 border border-slate-200 hover:border-desentra-teal/40 hover:text-desentra-teal' ?>">
+                class="category-tab-btn whitespace-nowrap px-4 py-1.5 md:py-2 rounded-full text-xs font-bold transition-all <?= ($currentCategory ?? 'all') === $catKey ? 'bg-gradient-to-r from-desentra-teal to-desentra-turquoise text-white shadow-sm shadow-desentra-teal/25' : 'bg-white text-slate-600 border border-slate-200 hover:border-desentra-teal/40 hover:text-desentra-teal' ?>">
             <?= esc($catLabel) ?>
         </button>
         <?php endforeach; ?>
@@ -167,9 +167,9 @@
 
     <!-- Feed / List Semua Informasi Desa -->
     <section class="space-y-3 pb-2">
-        <h3 class="font-extrabold text-sm text-slate-900">Semua Informasi & Arsip</h3>
+        <h3 class="font-extrabold text-sm md:text-base text-slate-900">Semua Informasi & Arsip</h3>
 
-        <div class="space-y-3" id="archive-list-container">
+        <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-3.5 md:gap-5" id="archive-list-container">
             <?php foreach ($allInfos ?? $infos as $info): ?>
             <?php
             $feedImg = !empty($info['banner_image']) 

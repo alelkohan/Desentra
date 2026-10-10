@@ -1,24 +1,24 @@
 <?= $this->extend('layouts/main') ?>
 
 <?= $this->section('content') ?>
-<div class="flex flex-col h-[calc(100vh-8.5rem)]">
+<div class="flex flex-col h-[calc(100vh-8.5rem)] md:h-[calc(100vh-12rem)] md:max-w-4xl md:mx-auto md:my-6 md:bg-white md:rounded-3xl md:border md:border-slate-200/90 md:shadow-md md:overflow-hidden">
 
     <!-- Header Sesuai Wireframe: < Chat AI di kiri, serta (i) dan (+) di kanan -->
-    <div class="px-4 py-3 bg-white border-b border-slate-100 flex items-center justify-between shadow-xs">
-        <a href="<?= base_url('/') ?>" class="flex items-center gap-2 text-slate-800 hover:text-desentra-teal font-extrabold text-sm transition-colors">
+    <div class="px-4 md:px-6 py-3 md:py-3.5 bg-white border-b border-slate-100 flex items-center justify-between shadow-xs">
+        <a href="<?= base_url('/') ?>" class="flex items-center gap-2 text-slate-800 hover:text-desentra-teal font-extrabold text-sm md:text-base transition-colors">
             <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                 <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2.2" d="M15 19l-7-7 7-7"></path>
             </svg>
-            <span>Chat AI</span>
+            <span>Konsultasi AI Desentra</span>
         </a>
 
-        <div class="flex items-center gap-1.5">
+        <div class="flex items-center gap-2">
             <!-- Tombol Info (i) Sesuai Sketsa -->
-            <button onclick="toggleInfoModal()" class="w-8 h-8 rounded-full border border-slate-200 flex items-center justify-center text-slate-600 hover:text-desentra-teal text-xs font-serif font-bold transition-colors" title="Informasi Sumber AI">
+            <button onclick="toggleInfoModal()" class="w-8 h-8 rounded-full border border-slate-200 flex items-center justify-center text-slate-600 hover:text-desentra-teal text-xs font-serif font-bold transition-colors shadow-2xs" title="Informasi Sumber AI">
                 i
             </button>
             <!-- Tombol New Chat (+) Sesuai Sketsa -->
-            <button onclick="clearChatHistory()" class="w-8 h-8 rounded-full border border-slate-200 flex items-center justify-center text-slate-600 hover:text-desentra-teal text-base font-bold transition-colors" title="Percakapan Baru">
+            <button onclick="clearChatHistory()" class="w-8 h-8 rounded-full border border-slate-200 flex items-center justify-center text-slate-600 hover:text-desentra-teal text-base font-bold transition-colors shadow-2xs" title="Percakapan Baru">
                 +
             </button>
         </div>
