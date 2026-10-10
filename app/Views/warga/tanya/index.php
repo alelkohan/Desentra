@@ -3,21 +3,21 @@
 <?= $this->section('content') ?>
 <div class="flex flex-col h-[calc(100vh-8.5rem)] md:h-[calc(100vh-12rem)] md:max-w-4xl md:mx-auto md:my-6 md:bg-white md:rounded-3xl md:border md:border-slate-200/90 md:shadow-md md:overflow-hidden">
 
-    <!-- Header Sesuai Wireframe: < Chat AI di kiri, serta (i) dan (+) di kanan -->
+    <!-- Header: Tanya Jawab Layanan di kiri, serta (i) dan (+) di kanan -->
     <div class="px-4 md:px-6 py-3 md:py-3.5 bg-white border-b border-slate-100 flex items-center justify-between shadow-xs">
         <a href="<?= base_url('/') ?>" class="flex items-center gap-2 text-slate-800 hover:text-desentra-teal font-extrabold text-sm md:text-base transition-colors">
             <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                 <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2.2" d="M15 19l-7-7 7-7"></path>
             </svg>
-            <span>Konsultasi AI Desentra</span>
+            <span>Tanya Jawab Layanan Desa</span>
         </a>
 
         <div class="flex items-center gap-2">
-            <!-- Tombol Info (i) Sesuai Sketsa -->
-            <button onclick="toggleInfoModal()" class="w-8 h-8 rounded-full border border-slate-200 flex items-center justify-center text-slate-600 hover:text-desentra-teal text-xs font-serif font-bold transition-colors shadow-2xs" title="Informasi Sumber AI">
+            <!-- Tombol Info (i) -->
+            <button onclick="toggleInfoModal()" class="w-8 h-8 rounded-full border border-slate-200 flex items-center justify-center text-slate-600 hover:text-desentra-teal text-xs font-serif font-bold transition-colors shadow-2xs" title="Informasi Layanan">
                 i
             </button>
-            <!-- Tombol New Chat (+) Sesuai Sketsa -->
+            <!-- Tombol New Chat (+) -->
             <button onclick="clearChatHistory()" class="w-8 h-8 rounded-full border border-slate-200 flex items-center justify-center text-slate-600 hover:text-desentra-teal text-base font-bold transition-colors shadow-2xs" title="Percakapan Baru">
                 +
             </button>
@@ -35,27 +35,29 @@
     <!-- Chat Messages Scroll Area -->
     <div id="chat-messages" class="flex-1 overflow-y-auto p-4 space-y-4">
         
-        <!-- User Bubble Sesuai Sketsa Wireframe: "Hai AI!" -->
+        <!-- User Bubble Sesuai Sketsa Wireframe: "Hai!" -->
         <div class="flex justify-end">
             <div class="bg-gradient-desentra text-white rounded-3xl rounded-tr-sm px-4.5 py-2.5 max-w-[80%] text-xs shadow-xs font-bold leading-relaxed">
-                Hai AI! 👋
+                Halo, saya ingin bertanya seputar layanan desa 👋
             </div>
         </div>
 
-        <!-- Bot Bubble Sesuai Sketsa Wireframe: "Hai juga, mau urus apa hari ini di Desentra?" -->
+        <!-- Bot Bubble -->
         <div class="flex items-start gap-2.5 max-w-[90%]">
             <div class="w-8 h-8 rounded-full bg-desentra-teal text-white flex items-center justify-center shrink-0 text-xs font-extrabold shadow-xs">
-                AI
+                <svg class="w-4 h-4 text-white" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M8 12h.01M12 12h.01M16 12h.01M21 12c0 4.418-4.03 8-9 8a9.863 9.863 0 01-4.255-.949L3 20l1.395-3.72C3.512 15.042 3 13.574 3 12c0-4.418 4.03-8 9-8s9 3.582 9 8z"></path>
+                </svg>
             </div>
             <div class="bg-white border border-slate-200/90 rounded-3xl rounded-tl-sm p-4 shadow-xs space-y-3 text-xs">
                 <p class="text-slate-800 font-bold leading-relaxed">
-                    Hai juga! Mau urus apa hari ini di <strong>Desentra</strong>?
+                    Halo! Ada yang bisa kami bantu seputar layanan di <strong>Desentra</strong>?
                 </p>
                 <p class="text-slate-500 text-[11px] font-medium leading-relaxed">
-                    Semua jawaban saya didasarkan pada dokumen regulasi & standar operasional desa yang telah terverifikasi resmi.
+                    Semua jawaban panduan didasarkan pada dokumen regulasi dan SOP resmi desa.
                 </p>
 
-                <!-- Tombol Saran Pertanyaan Berbentuk Pill Sesuai Sketsa (BSI Style Teal Soft) -->
+                <!-- Tombol Saran Pertanyaan Berbentuk Pill Sesuai Sketsa -->
                 <div class="pt-1 flex flex-wrap gap-2" id="quick-chips">
                     <button type="button" onclick="askPreset('Urus SKTM')" class="bg-teal-50/70 hover:bg-desentra-teal hover:text-white text-desentra-teal text-[11px] font-bold px-3.5 py-1.5 rounded-full border border-desentra-teal/25 transition-all active:scale-95 shadow-2xs">
                         Urus SKTM
@@ -75,34 +77,19 @@
 
     </div>
 
-    <!-- Input Bar Bawah Sesuai Format Sketsa Wireframe -->
+    <!-- Input Bar Bawah -->
     <div class="p-3 bg-white border-t border-slate-200">
-        <form id="chat-form" onsubmit="handleSend(event)" class="flex items-center gap-2 bg-slate-50 border border-slate-300 rounded-3xl p-1.5 shadow-xs focus-within:ring-2 focus-within:ring-desentra-teal focus-within:border-transparent">
+        <form id="chat-form" onsubmit="handleSend(event)" class="flex items-center gap-2 bg-slate-50 border border-slate-300 rounded-3xl p-1.5 pl-4 shadow-xs focus-within:ring-2 focus-within:ring-desentra-teal focus-within:border-transparent">
             
-            <!-- Tombol Tambah / Fitur Ekstra (+) Sesuai Sketsa -->
-            <button type="button" onclick="alert('Fitur lampiran dokumen pendukung chat AI')" class="w-8 h-8 rounded-full bg-white border border-slate-200 flex items-center justify-center text-slate-600 hover:text-desentra-teal text-sm font-bold shadow-2xs shrink-0">
-                +
-            </button>
-
-            <!-- Chip Tag Model Sesuai Sketsa -->
-            <span class="text-[9px] font-extrabold uppercase px-2 py-0.5 rounded-md bg-desentra-teal/15 text-desentra-teal shrink-0">
-                RAG v1
-            </span>
-
-            <!-- Kolom Input Teks Sesuai Placeholder Sketsa -->
+            <!-- Kolom Input Teks -->
             <input type="text" id="chat-input" 
-                   placeholder="Halo, bagaimana cara..." 
+                   placeholder="Ketik pertanyaan Anda seputar syarat surat..." 
                    autocomplete="off"
-                   class="flex-1 bg-transparent px-2 py-1.5 text-xs font-medium text-slate-800 placeholder-slate-400 focus:outline-none">
-            
-            <!-- Indikator Confidence / Kuota Sesuai Sketsa: (80%) -->
-            <span class="text-[10px] font-mono font-bold text-slate-400 shrink-0 pr-1">
-                95%
-            </span>
+                   class="flex-1 bg-transparent py-1.5 text-xs font-medium text-slate-800 placeholder-slate-400 focus:outline-none">
 
-            <!-- Tombol Kirim BSI Style Teal Gradient -->
+            <!-- Tombol Kirim -->
             <button type="submit" id="send-btn" 
-                    class="w-8 h-8 rounded-full bg-gradient-to-r from-desentra-teal to-[#009E94] text-white flex items-center justify-center shrink-0 shadow-xs shadow-desentra-teal/30 hover:opacity-95 active:scale-95 disabled:opacity-40 transition-transform">
+                    class="w-8 h-8 rounded-full bg-desentra-teal hover:bg-[#00706d] text-white flex items-center justify-center shrink-0 shadow-xs shadow-desentra-teal/30 active:scale-95 disabled:opacity-40 transition-transform">
                 <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                     <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2.2" d="M12 19l9 2-9-18-9 18 9-2zm0 0v-8"></path>
                 </svg>
@@ -116,13 +103,13 @@
 <div id="info-modal" class="hidden fixed inset-0 z-50 bg-black/40 backdrop-blur-xs flex items-center justify-center p-4">
     <div class="bg-white rounded-3xl p-5 max-w-sm w-full space-y-3 shadow-xl">
         <div class="flex items-center justify-between">
-            <h3 class="font-extrabold text-sm text-slate-900">Tentang Tanya AI Desentra</h3>
+            <h3 class="font-extrabold text-sm text-slate-900">Tentang Tanya Jawab Desentra</h3>
             <button onclick="toggleInfoModal()" class="text-slate-400 hover:text-slate-600 font-bold text-sm">✕</button>
         </div>
         <p class="text-xs text-slate-600 leading-relaxed">
-            Asisten ini menggunakan arsitektur <strong>RAG (Retrieval-Augmented Generation)</strong>. Jawaban dihasilkan secara terkontrol hanya berdasarkan dokumen panduan desa terverifikasi untuk menghindari kesalahan informasi (halusinasi).
+            Layanan ini membantu warga mendapatkan informasi cepat mengenai alur birokrasi dan persyaratan berkas administrasi desa berdasarkan Peraturan Bupati dan Standar Pelayanan Operasional resmi desa.
         </p>
-        <button onclick="toggleInfoModal()" class="w-full py-2 bg-desentra-teal text-white rounded-2xl text-xs font-bold">
+        <button onclick="toggleInfoModal()" class="w-full py-2 bg-desentra-teal text-white rounded-2xl text-xs font-bold hover:bg-[#00706d] transition-colors">
             Mengerti
         </button>
     </div>
@@ -167,7 +154,11 @@
         div.id = id;
         div.className = 'flex items-start gap-2.5 max-w-[90%]';
         div.innerHTML = `
-            <div class="w-8 h-8 rounded-full bg-desentra-teal text-white flex items-center justify-center shrink-0 text-xs font-extrabold shadow-xs">AI</div>
+            <div class="w-8 h-8 rounded-full bg-desentra-teal text-white flex items-center justify-center shrink-0 shadow-xs">
+                <svg class="w-4 h-4 text-white" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M8 12h.01M12 12h.01M16 12h.01M21 12c0 4.418-4.03 8-9 8a9.863 9.863 0 01-4.255-.949L3 20l1.395-3.72C3.512 15.042 3 13.574 3 12c0-4.418 4.03-8 9-8s9 3.582 9 8z"></path>
+                </svg>
+            </div>
             <div class="bg-white border border-slate-200 rounded-3xl rounded-tl-sm p-3.5 shadow-xs space-y-1">
                 <div class="flex items-center space-x-1.5 py-1">
                     <div class="w-2 h-2 rounded-full bg-desentra-teal animate-bounce"></div>
@@ -230,7 +221,11 @@
         }
 
         div.innerHTML = `
-            <div class="w-8 h-8 rounded-full bg-desentra-teal text-white flex items-center justify-center shrink-0 text-xs font-extrabold shadow-xs">AI</div>
+            <div class="w-8 h-8 rounded-full bg-desentra-teal text-white flex items-center justify-center shrink-0 shadow-xs">
+                <svg class="w-4 h-4 text-white" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M8 12h.01M12 12h.01M16 12h.01M21 12c0 4.418-4.03 8-9 8a9.863 9.863 0 01-4.255-.949L3 20l1.395-3.72C3.512 15.042 3 13.574 3 12c0-4.418 4.03-8 9-8s9 3.582 9 8z"></path>
+                </svg>
+            </div>
             <div class="bg-white border border-slate-200/90 rounded-3xl rounded-tl-sm p-4 shadow-xs space-y-2 text-xs">
                 <div class="text-slate-800 leading-relaxed font-medium prose prose-sm max-w-none">
                     ${formatMarkdown(data.answer)}
@@ -315,7 +310,7 @@
     function clearChatHistory() {
         window.showConfirmBottomSheet({
             title: 'Mulai Percakapan Baru?',
-            message: 'Riwayat percakapan pada sesi ini akan dibersihkan dan asisten AI akan menyapa kembali dari awal.',
+            message: 'Riwayat percakapan pada sesi ini akan dibersihkan dan percakapan akan dimulai kembali dari awal.',
             type: 'warning',
             confirmText: 'Ya, Mulai Baru',
             cancelText: 'Batal',

@@ -32,8 +32,8 @@
     </div>
 
     <!-- FULL WIDTH NAVBAR (Edge-to-Edge across entire screen) -->
-    <header class="w-full sticky top-0 z-40 bg-white/95 backdrop-blur-md border-b border-slate-200/80 shadow-[0_1px_4px_0_rgba(15,23,42,0.03)] transition-all">
-        <div class="w-full max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-3 md:py-3.5 flex items-center justify-between">
+    <header class="w-full fixed top-0 z-50 bg-white/95 md:bg-transparent md:backdrop-blur-none md:border-none md:shadow-none backdrop-blur-md border-b border-slate-200/80 shadow-[0_1px_4px_0_rgba(15,23,42,0.03)] transition-all duration-300 md:pt-4 md:px-4">
+        <div class="w-full max-w-7xl mx-auto px-4 sm:px-6 py-3 flex items-center justify-between md:bg-white/40 md:backdrop-blur-md md:rounded-full md:border md:border-white/20 md:shadow-lg md:py-2.5">
             
             <!-- Logo & Village Name -->
             <a href="<?= base_url('/') ?>" class="flex items-center space-x-2.5 group shrink-0">
@@ -48,27 +48,26 @@
             </a>
 
             <!-- Desktop Navigation Menu (Visible on md and up) -->
-            <nav class="hidden md:flex items-center space-x-1 lg:space-x-2">
+            <nav class="hidden md:flex items-center gap-1">
                 <a href="<?= base_url('/') ?>" 
-                   class="px-3.5 py-2 rounded-xl text-xs font-bold transition-all <?= ($activeNav ?? '') === 'beranda' ? 'bg-desentra-teal/10 text-desentra-teal font-extrabold' : 'text-slate-600 hover:text-desentra-teal hover:bg-slate-100/70' ?>">
+                   class="relative px-4 py-2 rounded-full text-sm font-medium transition-colors duration-300 <?= ($activeNav ?? '') === 'beranda' ? 'text-white bg-[#0b1a30]' : 'text-slate-800 hover:text-desentra-teal hover:bg-white/50' ?>">
                     Beranda
                 </a>
                 <a href="<?= base_url('layanan') ?>" 
-                   class="px-3.5 py-2 rounded-xl text-xs font-bold transition-all <?= ($activeNav ?? '') === 'layanan' ? 'bg-desentra-teal/10 text-desentra-teal font-extrabold' : 'text-slate-600 hover:text-desentra-teal hover:bg-slate-100/70' ?>">
+                   class="relative px-4 py-2 rounded-full text-sm font-medium transition-colors duration-300 <?= ($activeNav ?? '') === 'layanan' ? 'text-white bg-[#0b1a30]' : 'text-slate-800 hover:text-desentra-teal hover:bg-white/50' ?>">
                     Katalog Layanan
                 </a>
                 <a href="<?= base_url('info-desa') ?>" 
-                   class="px-3.5 py-2 rounded-xl text-xs font-bold transition-all <?= ($activeNav ?? '') === 'info_desa' ? 'bg-desentra-teal/10 text-desentra-teal font-extrabold' : 'text-slate-600 hover:text-desentra-teal hover:bg-slate-100/70' ?>">
+                   class="relative px-4 py-2 rounded-full text-sm font-medium transition-colors duration-300 <?= ($activeNav ?? '') === 'info_desa' ? 'text-white bg-[#0b1a30]' : 'text-slate-800 hover:text-desentra-teal hover:bg-white/50' ?>">
                     Info & Kabar Desa
                 </a>
                 <a href="<?= base_url('pengaduan') ?>" 
-                   class="px-3.5 py-2 rounded-xl text-xs font-bold transition-all <?= ($activeNav ?? '') === 'pengaduan' ? 'bg-desentra-teal/10 text-desentra-teal font-extrabold' : 'text-slate-600 hover:text-desentra-teal hover:bg-slate-100/70' ?>">
+                   class="relative px-4 py-2 rounded-full text-sm font-medium transition-colors duration-300 <?= ($activeNav ?? '') === 'pengaduan' ? 'text-white bg-[#0b1a30]' : 'text-slate-800 hover:text-desentra-teal hover:bg-white/50' ?>">
                     Pengaduan Warga
                 </a>
                 <a href="<?= base_url('tanya') ?>" 
-                   class="ml-1 inline-flex items-center gap-1.5 px-3.5 py-1.5 rounded-full bg-gradient-to-r from-desentra-teal to-[#009E94] text-white text-xs font-black shadow-xs hover:shadow-md hover:scale-102 transition-all">
-                    <span>Tanya AI</span>
-                    <span class="text-desentra-gold text-[10px]">✦</span>
+                   class="relative px-4 py-2 rounded-full text-sm font-medium transition-colors duration-300 <?= ($activeNav ?? '') === 'tanya' ? 'text-white bg-[#0b1a30]' : 'text-slate-800 hover:text-desentra-teal hover:bg-white/50' ?>">
+                    Tanya Layanan
                 </a>
             </nav>
 
@@ -143,11 +142,12 @@
                 <?php endif; ?>
             </a>
 
-            <!-- 3. Tanya (AI) - Center Action Button -->
+            <!-- 3. Tanya - Center Action Button -->
             <a href="<?= base_url('tanya') ?>" class="flex flex-col items-center py-1 px-3 rounded-xl transition-all duration-200 relative -top-3.5 group">
                 <div class="w-13 h-13 px-3 py-2.5 rounded-full bg-gradient-to-tr from-desentra-teal via-[#009E94] to-desentra-turquoise text-white flex flex-col items-center justify-center shadow-lg shadow-desentra-teal/30 group-hover:scale-105 active:scale-95 transition-transform border-2 border-white relative">
-                    <span class="font-extrabold text-[13px] tracking-tight leading-none">AI</span>
-                    <span class="absolute top-1 right-1.5 text-[9px] text-desentra-gold leading-none">✦</span>
+                    <svg class="w-6 h-6 text-white" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M8 12h.01M12 12h.01M16 12h.01M21 12c0 4.418-4.03 8-9 8a9.863 9.863 0 01-4.255-.949L3 20l1.395-3.72C3.512 15.042 3 13.574 3 12c0-4.418 4.03-8 9-8s9 3.582 9 8z"></path>
+                    </svg>
                 </div>
                 <span class="text-[11px] font-bold text-desentra-teal mt-0.5">Tanya</span>
                 <?php if (($activeNav ?? '') === 'tanya'): ?>
@@ -205,7 +205,7 @@
                     <h4 class="text-xs font-black uppercase tracking-wider text-slate-900">Layanan Warga</h4>
                     <ul class="space-y-2.5 text-xs text-slate-600 font-medium">
                         <li><a href="<?= base_url('layanan') ?>" class="hover:text-desentra-teal transition-colors">Katalog Persyaratan Surat</a></li>
-                        <li><a href="<?= base_url('tanya') ?>" class="hover:text-desentra-teal transition-colors">Konsultasi AI 24/7</a></li>
+                        <li><a href="<?= base_url('tanya') ?>" class="hover:text-desentra-teal transition-colors">Tanya Jawab Layanan</a></li>
                         <li><a href="<?= base_url('pengaduan') ?>" class="hover:text-desentra-teal transition-colors">Kirim Laporan Pengaduan</a></li>
                         <li><a href="<?= base_url('pengaduan/status') ?>" class="hover:text-desentra-teal transition-colors">Pelacakan Status Berkas</a></li>
                     </ul>

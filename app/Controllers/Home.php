@@ -17,7 +17,7 @@ class Home extends BaseController
             'activeNav'        => 'beranda',
             'villageName'      => env('DESENTRA_VILLAGE_NAME', 'Desa Sukamaju'),
             'districtName'     => env('DESENTRA_DISTRICT_NAME', 'Kecamatan Ciawi'),
-            'popularGuides'    => $guideModel->getPublishedGuides(4),
+            'popularGuides'    => $guideModel->getPublishedGuides(6),
             'latestInfos'      => $infoModel->getActiveInfos(null, 3),
             'announcements'    => $infoModel->getActiveInfos('announcement', 2),
         ];

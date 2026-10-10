@@ -60,11 +60,11 @@
             </div>
             <h3 class="font-extrabold text-sm text-slate-800">Panduan tidak ditemukan</h3>
             <p class="text-xs text-slate-500 max-w-xs mx-auto">
-                Coba gunakan kata kunci lain atau tanyakan langsung pada asisten AI Desentra.
+                Coba gunakan kata kunci lain atau tanyakan melalui layanan tanya jawab desa.
             </p>
-            <a href="<?= base_url('tanya') ?>" class="inline-flex items-center gap-1.5 bg-gradient-to-r from-desentra-teal to-[#009E94] text-white text-xs font-bold px-4 py-2 rounded-2xl shadow-md shadow-teal-900/15 hover:opacity-95 transition-opacity">
-                <span>Tanya AI Desentra</span>
-                <span>✨</span>
+            <a href="<?= base_url('tanya') ?>" class="inline-flex items-center gap-1.5 bg-desentra-teal hover:bg-[#00706d] text-white text-xs font-bold px-4 py-2 rounded-xl shadow-xs transition-colors">
+                <span>Tanya Jawab Layanan</span>
+                <span>→</span>
             </a>
         </div>
         <?php else: ?>

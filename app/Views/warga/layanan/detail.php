@@ -202,17 +202,17 @@
                 </div>
             </div>
 
-            <!-- Bantuan AI Assistant Box -->
+            <!-- Bantuan Layanan Box -->
             <div class="bg-gradient-to-br from-desentra-teal to-[#009E94] rounded-3xl p-5 text-white shadow-md shadow-desentra-teal/20 space-y-3">
-                <div class="inline-flex items-center gap-1.5 px-2.5 py-0.5 rounded-full bg-white/20 text-white text-[10px] font-bold">
-                    <span>✦ Asisten Panduan AI</span>
-                </div>
+                <span class="inline-block px-2.5 py-0.5 rounded-full bg-white/20 text-white text-[10px] font-bold">
+                    Pusat Bantuan
+                </span>
                 <h3 class="font-extrabold text-base leading-snug">Ada Pertanyaan Mengenai Syarat Ini?</h3>
                 <p class="text-xs text-white/90 leading-relaxed">
-                    Tanyakan langsung persyaratan khusus atau alur alternatif ke Desentra AI.
+                    Tanyakan langsung seputar kelengkapan dokumen atau alur pengajuan secara online kapan saja.
                 </p>
                 <a href="<?= base_url('tanya') ?>" class="inline-flex items-center justify-center w-full py-2.5 rounded-2xl bg-white text-desentra-teal font-extrabold text-xs hover:bg-orange-50 hover:text-desentra-orange transition-all shadow-xs">
-                    Konsultasi AI Sekarang →
+                    Tanya Layanan Sekarang →
                 </a>
             </div>
 
