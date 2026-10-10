@@ -269,3 +269,34 @@ Proposal mengikuti template resmi UINIC 8.0, berbahasa Indonesia, maksimal 30 ha
 5. Pengaduan, kode tiket, antrean admin, dan status.
 6. PWA/cache publik dan checklist lokal; sinkronisasi akun warga jika waktu MVP mencukupi.
 7. Dokumentasi, demo online, dan uji pengguna.
+
+## 15. Aturan Standar Desain, UI/UX, Teknis, dan Protokol Alur Kerja
+
+Bagian ini merangkum aturan tetap dan batasan implementasi yang wajib dipatuhi selama proses pengembangan Desentra:
+
+### 15.1 Aturan Estetika & Desain Visual (BSI Design System & Mobile-First)
+- **Mobile-First Viewport**: Antarmuka diutamakan untuk tampilan layar ponsel (`max-w-md mx-auto`), responsif, dan siap Progressive Web App (PWA).
+- **Palet Warna Acuan (Aplikasi Mobile Banking BSI)**:
+  - `Teal` (`#008683`): Warna primer institusional (latar utama, kartu aktif, tombol primer).
+  - `Turquoise` (`#00B6AA` / `#009E94`): Aksen tombol, active tabs, gradien pendukung.
+  - `Orange` (`#F08F0E`): Aksen badge, kategori pengumuman penting, highlight interaktif.
+  - `Gold` (`#F1B435`): Highlight bintang dan aksen sekunder.
+  - `Dark / Slate` (`#131313` / Slate 50–900): Tipografi modern netral.
+- **Standar Estetika Visual**: Dilarang menggunakan warna generik mentah (plain red/blue). Desain wajib terasa premium, rapi, bersih, memiliki *micro-animations* yang halus, dan tidak berkesan seperti MVP mentah.
+
+### 15.2 Aturan Dialog & Konfirmasi Interaktif (Bottom Sheet)
+- **Penerapan Bottom Sheet**: Untuk saat ini, seluruh dialog konfirmasi interaktif di sisi warga (misalnya: submit checklist, kirim pengaduan, konfirmasi aksi penting) **wajib menggunakan Bottom Sheet** (muncul *slide-up* dari bawah layar ponsel), karena saat ini **belum dibuat desktop view-nya**.
+- **Larangan**: Dilarang menggunakan `alert()` / `confirm()` bawaan browser dan dilarang menggunakan pop-up modal kotak desktop di tengah layar.
+
+### 15.3 Aturan Teknis, Lingkungan, Keamanan Berkas, & Repositori Git
+- **Tech Stack & Server Lokal**: CodeIgniter 4 (PHP 8.3), MySQL 8.4, Tailwind CSS 3.4. Server lokal dijalankan melalui Spark port 8080 (`php spark serve --port 8080`) dan MySQL server port 3306.
+- **Keamanan Berkas (.gitignore & .env)**:
+  - Berkas `.env` asli dan kredensial rahasia (Gemini API Key, kata sandi database, encryption key) **wajib diabaikan oleh Git** (`.gitignore`).
+  - Berkas `.env.example` disediakan sebagai acuan konfigurasi tanpa memuat nilai rahasia.
+  - Direktori `node_modules/`, `writable/session/*`, `writable/logs/*`, dan `writable/debugbar/*` wajib masuk `.gitignore`.
+- **Repositori Git Resmi**: `https://github.com/alelkohan/Desentra.git` (Branch utama: `main`).
+
+### 15.4 Protokol Alur Kerja & Komunikasi Pengembangan (Workflow Protocol)
+- **Klarifikasi Sebelum Eksekusi**: Ketika pengguna menginstruksikan sesuatu dengan pertanyaan/arahan seperti *"paham ngga? jelasin dulu"* atau *"jawab dulu jangan dibuat dulu"*:
+  - **Wajib**: Jelaskan pemahaman logika, rancangan, dan mekanismenya terlebih dahulu secara transparan.
+  - **Larangan**: Jangan langsung menulis atau mengubah kode sebelum pengguna memberikan konfirmasi lanjutan (*"gaskan / lanjut"*).
