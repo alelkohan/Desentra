@@ -1,0 +1,11 @@
+# Auto detect text files and normalize line endings
+* text=auto
+
+# Ensure shell scripts always keep LF endings (important for Docker on Windows)
+*.sh text eol=lf
+Dockerfile text eol=lf
+docker-entrypoint.sh text eol=lf
+
+# Windows batch files keep CRLF
+*.bat text eol=crlf
+*.cmd text eol=crlf

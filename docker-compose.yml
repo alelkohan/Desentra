@@ -1,0 +1,67 @@
+services:
+  app:
+    build:
+      context: .
+      dockerfile: Dockerfile
+    container_name: desentra_app
+    restart: unless-stopped
+    ports:
+      - "8080:80"
+    environment:
+      DB_HOST: db
+      DB_PORT: 3306
+      CI_ENVIRONMENT: development
+    volumes:
+      - ./:/var/www/html
+    depends_on:
+      db:
+        condition: service_healthy
+    networks:
+      - desentra-network
+
+  db:
+    image: mysql:8.4
+    container_name: desentra_db
+    restart: unless-stopped
+    command: --character-set-server=utf8mb4 --collation-server=utf8mb4_unicode_ci
+    environment:
+      MYSQL_ROOT_PASSWORD: desentra_root
+      MYSQL_DATABASE: desentra
+      MYSQL_USER: desentra_user
+      MYSQL_PASSWORD: desentra_password
+    ports:
+      - "3306:3306"
+    volumes:
+      - desentra_db_data:/var/lib/mysql
+    healthcheck:
+      test: ["CMD", "mysqladmin", "ping", "-h", "localhost", "-u", "root", "-pdesentra_root"]
+      interval: 5s
+      timeout: 5s
+      retries: 10
+      start_period: 15s
+    networks:
+      - desentra-network
+
+  phpmyadmin:
+    image: phpmyadmin/phpmyadmin:latest
+    container_name: desentra_pma
+    restart: unless-stopped
+    ports:
+      - "8081:80"
+    environment:
+      PMA_HOST: db
+      PMA_PORT: 3306
+      PMA_USER: root
+      PMA_PASSWORD: desentra_root
+    depends_on:
+      db:
+        condition: service_healthy
+    networks:
+      - desentra-network
+
+networks:
+  desentra-network:
+    driver: bridge
+
+volumes:
+  desentra_db_data:
