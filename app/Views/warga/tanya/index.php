@@ -330,10 +330,30 @@
     function formatMarkdown(text) {
         if (!text) return '';
         let escaped = escapeHtml(text);
-        escaped = escaped.replace(/\*\*(.*?)\*\*/g, '<strong>$1</strong>');
-        escaped = escaped.replace(/\*(.*?)\*/g, '<em>$1</em>');
-        escaped = escaped.replace(/\n/g, '<br>');
-        return escaped;
+        escaped = escaped.replace(/\*\*(.*?)\*\*/g, '<strong class="font-bold text-slate-900">$1</strong>');
+        escaped = escaped.replace(/\*(.*?)\*/g, '<em class="italic text-slate-700">$1</em>');
+
+        const lines = escaped.split('\n');
+        let formatted = '';
+        lines.forEach(line => {
+            const trimmed = line.trim();
+            if (trimmed.startsWith('•') || trimmed.startsWith('-')) {
+                const content = trimmed.replace(/^[•\-]\s*/, '');
+                formatted += `<div class="flex items-start gap-2 my-1 pl-1"><span class="text-desentra-teal font-extrabold shrink-0 mt-0.5">•</span><span class="leading-relaxed">${content}</span></div>`;
+            } else if (/^\d+\.\s/.test(trimmed)) {
+                const match = trimmed.match(/^(\d+)\.\s(.*)$/);
+                if (match) {
+                    formatted += `<div class="flex items-start gap-2 my-1.5 pl-1"><span class="w-5 h-5 rounded-full bg-teal-50 text-desentra-teal text-[10px] font-extrabold flex items-center justify-center shrink-0 border border-teal-200/80 shadow-2xs mt-0.5">${match[1]}</span><span class="leading-relaxed">${match[2]}</span></div>`;
+                } else {
+                    formatted += `<div class="my-0.5 leading-relaxed">${trimmed}</div>`;
+                }
+            } else if (trimmed === '') {
+                formatted += '<div class="h-2"></div>';
+            } else {
+                formatted += `<div class="my-0.5 leading-relaxed">${line}</div>`;
+            }
+        });
+        return formatted;
     }
 </script>
 <?= $this->endSection() ?>

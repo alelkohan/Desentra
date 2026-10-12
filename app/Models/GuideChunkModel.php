@@ -22,14 +22,15 @@ class GuideChunkModel extends Model
     {
         $db = \Config\Database::connect();
         
-        // Bersihkan query dan singkirkan stopwords umum
+        // Bersihkan query dan singkirkan stopwords umum (jangan buang kata fungsional seperti jam, buka, biaya)
         $cleanQuery = trim($query);
         $rawWords = preg_split('/\s+/', strtolower($cleanQuery));
         
         $stopwords = [
             'bagaimana', 'gimana', 'cara', 'membuat', 'bikin', 'mengurus', 'urus', 
-            'apa', 'apakah', 'saja', 'dan', 'yang', 'untuk', 'dari', 'bisa', 'adalah', 
-            'di', 'ke', 'ini', 'itu', 'desa', 'surat', 'saya', 'mau', 'dong', 'kah', 
+            'apa', 'apakah', 'berapa', 'kapan', 'dimana', 'kemana', 'siapa', 'mengapa', 'kenapa',
+            'saja', 'dan', 'yang', 'untuk', 'dari', 'adalah', 
+            'di', 'ke', 'ini', 'itu', 'saya', 'mau', 'dong', 'kah', 
             'pada', 'dengan', 'atau', 'ingin', 'tolong'
         ];
 
@@ -54,19 +55,26 @@ class GuideChunkModel extends Model
                          ->getResultArray();
 
         $scored = [];
+        $seenEntities = []; // Hindari duplikasi panduan / FAQ yang sama
 
         foreach ($candidates as $cand) {
+            $entityKey = !empty($cand['guide_id']) ? 'guide_' . $cand['guide_id'] : 'faq_' . $cand['faq_id'];
+            if (isset($seenEntities[$entityKey])) {
+                continue;
+            }
+
             $score = 0;
-            // Ambil token dari keywords dan title
-            $corpus = strtolower(($cand['keywords'] ?? '') . ' ' . ($cand['title'] ?? '') . ' ' . ($cand['guide_title'] ?? ''));
-            // Pisahkan menjadi kata-kata mandiri
-            $corpusWords = preg_split('/[\s,\.\-\(\)\/]+/', $corpus);
+            // Ambil token dari keywords, title, dan chunk text
+            $keywordsTitle = strtolower(($cand['keywords'] ?? '') . ' ' . ($cand['title'] ?? '') . ' ' . ($cand['guide_title'] ?? '') . ' ' . ($cand['faq_question'] ?? ''));
+            $corpusWords = preg_split('/[\s,\.\-\(\)\/]+/', $keywordsTitle);
             $corpusWords = array_filter($corpusWords);
 
+            $chunkTextLower = strtolower($cand['chunk_text'] ?? '');
+
             foreach ($words as $queryWord) {
-                // Kecocokan kata eksak (bobot tinggi)
+                // Kecocokan kata eksak di judul / keywords (bobot tinggi)
                 if (in_array($queryWord, $corpusWords)) {
-                    $score += 3;
+                    $score += 4;
                 } else {
                     // Cek kemiripan awalan minimal 4 huruf (contoh: 'kelahiran' vs 'lahir')
                     foreach ($corpusWords as $cw) {
@@ -78,11 +86,17 @@ class GuideChunkModel extends Model
                         }
                     }
                 }
+
+                // Kecocokan di isi chunk teks
+                if (str_contains($chunkTextLower, $queryWord)) {
+                    $score += 1;
+                }
             }
 
             if ($score > 0) {
                 $cand['relevance_score'] = $score;
                 $scored[] = $cand;
+                $seenEntities[$entityKey] = true;
             }
         }
 
@@ -91,7 +105,17 @@ class GuideChunkModel extends Model
             return $b['relevance_score'] <=> $a['relevance_score'];
         });
 
-        return array_slice($scored, 0, $limit);
+        if (empty($scored)) {
+            return [];
+        }
+
+        // Filter: hanya sertakan yang skornya signifikan (>= 2 dan minimal 40% dari skor teratas)
+        $topScore = $scored[0]['relevance_score'];
+        $filtered = array_filter($scored, function($cand) use ($topScore) {
+            return $cand['relevance_score'] >= max(2, (int) ceil($topScore * 0.4));
+        });
+
+        return array_slice(array_values($filtered), 0, $limit);
     }
 
     /**
@@ -116,7 +140,11 @@ class GuideChunkModel extends Model
             $decoded = json_decode($guide['steps_json'], true);
             if (is_array($decoded)) {
                 foreach ($decoded as $st) {
-                    $stepsList[] = ($st['title'] ?? '') . ': ' . ($st['description'] ?? '');
+                    if (is_array($st)) {
+                        $stepsList[] = ($st['title'] ?? '') . ': ' . ($st['description'] ?? '');
+                    } else {
+                        $stepsList[] = (string)$st;
+                    }
                 }
             }
         }
@@ -134,10 +162,10 @@ class GuideChunkModel extends Model
             $chunkText .= "Prosedur / Langkah: " . implode(' -> ', $stepsList) . ".\n";
         }
         $chunkText .= "Biaya: " . ($guide['fee_description'] ?? 'Gratis') . ".\n";
-        $chunkText .= "Estimasi Waktu: " . ($guide['estimated_duration'] ?? '1 hari kerja') . ".\n";
+        $chunkText .= "Estimasi Waktu: " . ($guide['estimated_duration'] ?? '15 Menit') . ".\n";
 
         // Generate keywords
-        $keywords = strtolower($guide['title'] . ' ' . $guide['category'] . ' ' . implode(' ', $reqTitles));
+        $keywords = strtolower($guide['title'] . ' ' . $guide['category'] . ' ' . $guide['slug'] . ' ' . implode(' ', $reqTitles) . ' syarat biaya prosedur langkah');
         $tokenCount = (int) ceil(strlen($chunkText) / 4);
 
         // Cek existing chunk
@@ -158,6 +186,59 @@ class GuideChunkModel extends Model
                 'token_count' => $tokenCount,
                 'created_at'  => date('Y-m-d H:i:s'),
             ]);
+        }
+    }
+
+    /**
+     * Synchronize / Rebuild RAG chunk for a FAQ
+     */
+    public function syncFaqChunk($faqId)
+    {
+        $db = \Config\Database::connect();
+        $faq = $db->table('faqs')->where('id', $faqId)->get()->getRowArray();
+        if (!$faq) {
+            $this->where('faq_id', $faqId)->delete();
+            return;
+        }
+
+        $chunkText = "FAQ DESA: " . $faq['question'] . "\nJawaban: " . $faq['answer'];
+        $keywords = strtolower($faq['question'] . ' ' . ($faq['category'] ?? '') . ' faq tanya jawab');
+        $tokenCount = (int) ceil(strlen($chunkText) / 4);
+
+        $existing = $this->where('faq_id', $faqId)->first();
+        if ($existing) {
+            $this->update($existing['id'], [
+                'title'       => $faq['question'],
+                'chunk_text'  => $chunkText,
+                'keywords'    => $keywords,
+                'token_count' => $tokenCount,
+            ]);
+        } else {
+            $this->insert([
+                'faq_id'      => $faqId,
+                'title'       => $faq['question'],
+                'chunk_text'  => $chunkText,
+                'keywords'    => $keywords,
+                'token_count' => $tokenCount,
+                'created_at'  => date('Y-m-d H:i:s'),
+            ]);
+        }
+    }
+
+    /**
+     * Synchronize all published guides and FAQs into RAG chunks
+     */
+    public function syncAllChunks()
+    {
+        $db = \Config\Database::connect();
+        $guides = $db->table('service_guides')->where('status', 'published')->get()->getResultArray();
+        foreach ($guides as $g) {
+            $this->syncGuideChunk($g['id']);
+        }
+
+        $faqs = $db->table('faqs')->where('status', 'published')->get()->getResultArray();
+        foreach ($faqs as $f) {
+            $this->syncFaqChunk($f['id']);
         }
     }
 }
